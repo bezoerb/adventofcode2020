@@ -40,11 +40,11 @@ const readFileAsync = promisify(fs.readFile);
       return colMin * 8 + rowMin;
     });
 
-  // What is the highest seat ID on a boarding pass?
+  // a) What is the highest seat ID on a boarding pass?
   console.log(`Highest seat ID: ${chalk.green.bold(Math.max(...ids))}`);
 
+  // b) What's your seat ID
   const sorted = [...ids].sort((a, b) => a - b);
-
   for (let i = 0; i < sorted.length; i++) {
     if (i < sorted.length - 1 && sorted[i] === sorted[i + 1] - 2) {
       console.log(`Your seat ID: ${chalk.green.bold(sorted[i] + 1)}`);
