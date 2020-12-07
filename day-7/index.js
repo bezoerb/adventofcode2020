@@ -30,7 +30,6 @@ const containsRecursive = (obj, colors, result = []) => {
 const requires = (obj, colors, initial = {}) =>
   Object.keys(colors || {}).reduce((res, color) => {
     const { [color]: mult = 1 } = colors || {};
-
     const { [color]: includes } = obj;
 
     return merge(res, includes, mult);
@@ -51,7 +50,7 @@ run((input) => {
     .split(/[\r\n]/)
     .filter((v) => v)
     .reduce((rules, line) => {
-      const [str, color, rule] = /^(.*)\sbags?\scontains?(.*)$/.exec(line);
+      const [, color, rule] = /^(.*)\sbags?\scontains?(.*)$/.exec(line);
       const parsed = rule.split(",").reduce((res, rule) => {
         const [, count, color] =
           /\s*(\d+)\s([\w\s]+)\sbags?\.?/.exec(rule) || [];
