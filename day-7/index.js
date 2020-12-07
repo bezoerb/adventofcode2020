@@ -1,6 +1,6 @@
 const chalk = require("chalk");
 const { run } = require("../lib/utils");
-const { different } = require("../lib/array");
+const { different, sum } = require("../lib/array");
 
 const merge = (a, b, mult = 1) =>
   Object.keys(b).reduce((res, key) => {
@@ -74,7 +74,7 @@ run((input) => {
   const tmp = requiresRecursive(rules, { "shiny gold": 1 });
   console.log(
     `${chalk.green.bold(
-      Object.values(tmp).reduce((acc, val) => acc + val, 0)
+      sum(Object.values(tmp))
     )} individual bags are required inside my single shiny gold bag`
   );
 });
