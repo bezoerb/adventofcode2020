@@ -1,9 +1,14 @@
-const fs = require("fs");
 const chalk = require("chalk");
-const { promisify } = require("util");
-const readFileAsync = promisify(fs.readFile);
+const { run } = require("../lib/utils");
+const { different } = require("../lib/array");
 
-const different = (a, b) => a.filter((x) => !b.includes(x));
+const merge = (a, b, mult = 1) =>
+  Object.keys(b).reduce((res, key) => {
+    const { [key]: prev = 0 } = a;
+    const { [key]: next = 0 } = b;
+
+    return { ...res, [key]: prev + next * mult };
+  }, a);
 
 const contains = (obj, ...colors) =>
   Object.keys(obj || {}).filter((color) =>
@@ -21,14 +26,6 @@ const containsRecursive = (obj, colors, result = []) => {
 
   return result;
 };
-
-const merge = (a, b, mult = 1) =>
-  Object.keys(b).reduce((res, key) => {
-    const { [key]: prev = 0 } = a;
-    const { [key]: next = 0 } = b;
-
-    return { ...res, [key]: prev + next * mult };
-  }, a);
 
 const requires = (obj, colors, initial = {}) =>
   Object.keys(colors || {}).reduce((res, color) => {
@@ -49,9 +46,7 @@ const requiresRecursive = (obj, colors) => {
   return data;
 };
 
-(async () => {
-  const input = await readFileAsync(__dirname + "/input.txt", "utf-8");
-
+run((input) => {
   const rules = input
     .split(/[\r\n]/)
     .filter((v) => v)
@@ -83,4 +78,4 @@ const requiresRecursive = (obj, colors) => {
       Object.values(tmp).reduce((acc, val) => acc + val, 0)
     )} individual bags are required inside my single shiny gold bag`
   );
-})();
+});

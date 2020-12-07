@@ -1,12 +1,8 @@
-const fs = require("fs");
 const chalk = require("chalk");
-const { promisify } = require("util");
-const readFileAsync = promisify(fs.readFile);
+const { run } = require("../lib/utils");
+const { intersect } = require("../lib/array");
 
-const intersect = (a, b) => a.filter((x) => b.includes(x));
-
-(async () => {
-  const input = await readFileAsync(__dirname + "/input.txt", "utf-8");
+run((input) => {
   const rows = input.split(/[\r\n]{2}/).map((row) => {
     let data = {};
     row.replace(/([^:]+):([^\s]+)/g, (str, key, value) => {
@@ -70,4 +66,4 @@ const intersect = (a, b) => a.filter((x) => b.includes(x));
   });
 
   console.log(`${chalk.green.bold(rows.filter((v) => v).length)} valid`);
-})();
+});

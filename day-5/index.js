@@ -1,10 +1,7 @@
-const fs = require("fs");
 const chalk = require("chalk");
-const { promisify } = require("util");
-const readFileAsync = promisify(fs.readFile);
+const { run } = require("../lib/utils");
 
-(async () => {
-  const input = await readFileAsync(__dirname + "/input.txt", "utf-8");
+run((input) => {
   const ids = input
     .split(/[\r\n]/)
     .filter((code) => code)
@@ -50,4 +47,4 @@ const readFileAsync = promisify(fs.readFile);
       console.log(`Your seat ID: ${chalk.green.bold(sorted[i] + 1)}`);
     }
   }
-})();
+});

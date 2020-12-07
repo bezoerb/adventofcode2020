@@ -1,10 +1,7 @@
-const fs = require("fs");
 const chalk = require("chalk");
-const { promisify } = require("util");
-const readFileAsync = promisify(fs.readFile);
+const { run } = require("../lib/utils");
 
-(async () => {
-  const input = await readFileAsync(__dirname + "/input.txt", "utf-8");
+run((input) => {
   const rows = input.split(/[\r\n]/);
   const tree = "#";
 
@@ -33,4 +30,4 @@ const readFileAsync = promisify(fs.readFile);
 
   const result = trees.reduce((res, val) => res * val, 1);
   console.log(`Result: ${chalk.green(result)}`);
-})();
+});
