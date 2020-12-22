@@ -1,4 +1,3 @@
-const chalk = require("chalk");
 const { run, ask, answer } = require("../lib/utils");
 const { sum, different, multiply } = require("../lib/array");
 
