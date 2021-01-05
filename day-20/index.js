@@ -197,48 +197,50 @@ const addMonsters = (image) => {
   return result;
 };
 
-run((input) => {
-  const parts = input
-    .trim()
-    .split(/[\r\n]{2}/)
-    .map((part) => {
-      const [title, ...data] = part.split(/[\r\n]/);
-      const [, id] = /Tile (\d+):/.exec(title);
+run(
+  (input) => {
+    const parts = input
+      .trim()
+      .split(/[\r\n]{2}/)
+      .map((part) => {
+        const [title, ...data] = part.split(/[\r\n]/);
+        const [, id] = /Tile (\d+):/.exec(title);
 
-      const edges = getEdges(data);
+        const edges = getEdges(data);
 
-      return { id, data, edges };
-    });
+        return { id, data, edges };
+      });
 
-  const processed = parts.map((part) => ({
-    ...part,
-    neighbours: part.edges
-      .map(([edge]) => {
-        return parts
-          .filter(
-            (tmp) => tmp.id !== part.id && tmp.edges.flat().includes(edge)
-          )
-          .map((part) => part.id);
-      })
-      .flat(),
-  }));
+    const processed = parts.map((part) => ({
+      ...part,
+      neighbours: part.edges
+        .map(([edge]) => {
+          return parts
+            .filter(
+              (tmp) => tmp.id !== part.id && tmp.edges.flat().includes(edge)
+            )
+            .map((part) => part.id);
+        })
+        .flat(),
+    }));
 
-  const corners = processed.filter((part) => part.neighbours.length === 2);
-  const cornerIds = corners.map((corner) => corner.id);
+    const corners = processed.filter((part) => part.neighbours.length === 2);
+    const cornerIds = corners.map((corner) => corner.id);
 
-  ask(
-    `What do you get if you multiply together the IDs of the four corner tiles?`
-  );
+    ask(
+      `What do you get if you multiply together the IDs of the four corner tiles?`
+    );
 
-  answer(multiply(cornerIds, BigInt(1)));
+    answer(multiply(cornerIds, BigInt(1)));
 
-  const sorted = sortParts(processed);
+    const sorted = sortParts(processed);
 
-  const image = rotate(rotate(rotate(processParts(sorted))));
-  const withMonsters = addMonsters(image);
+    const image = rotate(rotate(rotate(processParts(sorted))));
+    const withMonsters = addMonsters(image);
 
-  //console.log(withMonsters.join("\n"));
+    //console.log(withMonsters.join("\n"));
 
-  ask("How many # are not part of a sea monster?");
-  answer(withMonsters.join("").replace(/[\.O]/g, "").length);
-});
+    ask("How many # are not part of a sea monster?");
+    answer(withMonsters.join("").replace(/[\.O]/g, "").length);
+  } /* ,'test.txt' */
+);
